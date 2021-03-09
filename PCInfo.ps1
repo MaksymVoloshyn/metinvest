@@ -20,7 +20,7 @@ Function PCInfo {
 cls
 $PCName = Read-Host "Please enter PC Name"
 $PropertiesPC = Get-AdComputer $PCName -Properties * | Select-Object CanonicalName, LastLogonDate, PasswordExpired, OperatingSystemVersion
-$LastLogonUsr = Get-WmiObject -Query "SELECT * FROM SMS_R_SYSTEM WHERE Name='$PCName'" -ComputerName "\\sccmsrv" -Namespace "\\ns" | ForEach-Object{$_.LastLogonUserName}
+$LastLogonUsr = Get-WmiObject -Query "SELECT * FROM \\dbcoll WHERE Name='$PCName'" -ComputerName "\\sccmsrv" -Namespace "\\ns" | ForEach-Object{$_.LastLogonUserName}
 cls
 Write-Host ""
 Write-Host "OU:                      "$PropertiesPC.CanonicalName
@@ -55,7 +55,7 @@ Function UserInfo {
 cls
 $UserName = Read-Host "Please enter user account name"
 $PropertiesUserAcc = Get-AdUser $UserName -Properties * | Select-Object CN, CanonicalName, Company, PasswordExpired, LockedOut, mobile, extensionAttribute9
-$Lastloggedusr = Get-WmiObject -Query "SELECT * FROM SMS_CM_RES_COLL_SMS00001 WHERE LastLogonUser like '$UserName'" -ComputerName "\\sccmsrv" -Namespace "ns" | ForEach-Object{$_.Name}
+$Lastloggedusr = Get-WmiObject -Query "SELECT * FROM \\dbcoll WHERE LastLogonUser like '$UserName'" -ComputerName "\\sccmsrv" -Namespace "ns" | ForEach-Object{$_.Name}
 cls
 Write-Host ""
 Write-Host "Name:             "$PropertiesUserAcc.CN
